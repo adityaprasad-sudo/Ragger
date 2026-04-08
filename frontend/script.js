@@ -12,6 +12,11 @@ const btntxt = document.getElementById("btntxt");
 const btnhid = document.getElementById("btnhid");
 const statusdis = document.getElementById("statusdis");
 
+
+
+
+
+
 //theme toggler
 themecheckbox.addEventListener("change", () => {
     if(themecheckbox.checked) {
@@ -21,12 +26,23 @@ themecheckbox.addEventListener("change", () => {
     }
 });
 
+
+
+
+
+
 const activedocindi = document.getElementById("activedocindi");
 const activedocname = document.getElementById("activedocname");
 const question = document.getElementById("question");
 const sendbtn = document.getElementById("sendbtn");
 const chathistory = document.getElementById("chathistory");
 const welcomestat = document.getElementById("welcomestat");
+
+
+
+
+
+
 
 dropzone.addEventListener('click', () => file.click());
 file.addEventListener('change', (e) => {
@@ -40,6 +56,11 @@ file.addEventListener('change', (e) => {
         statusdis.classList.add("statusdishid");
     }
 });
+
+
+
+
+
 
 actbtn.addEventListener("click", async () => {
     if(!selfile || actbtn.classList.contains('actionbtnin')) return;
@@ -83,3 +104,41 @@ actbtn.addEventListener("click", async () => {
     }
 });
 
+
+
+
+
+sendbtn.addEventListener('click', sendmessage);
+question.addEventListener('keydown', (e) => {
+    if(e.key === "Enter") {
+        sendmessage();
+    }
+});
+async function sendmessage() {
+    const text = question.ariaValueMax.trim();
+    if(!text || !currentdocid) return;
+    appendmessage("you", text);
+    question.value ='';
+    const loadingid = appendmessage("AI", "thinking");
+    const formdata = new FormData();
+    formdata.append("document_id", currentdocid);
+    formdata.append("question", text);
+    try {
+        const responce = await fetch(`${Apiurl}/chat`, {
+            method: "POST",
+            body: formdata
+        });
+        if(responce.ok){
+            const data = await responce.json();
+            updatemessage(loadingid, "AI", data.answer);
+        }
+        else {
+            updatemessage(loadingid,"eror processing request.");
+        }
+    }catch (error) {
+        updatemessage(loadingid, "connection to backend lost");
+    }
+}
+
+
+        
