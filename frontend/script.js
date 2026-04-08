@@ -115,13 +115,13 @@ question.addEventListener('keydown', (e) => {
     }
 });
 async function sendmessage() {
-    const text = question.ariaValueMax.trim();
+    const text = question.value.trim();
     if(!text || !currentdocid) return;
     appendmessage("you", text);
     question.value ='';
     const loadingid = appendmessage("AI", "thinking");
     const formdata = new FormData();
-    formdata.append("document_id", currentdocid);
+    formdata.append("documentid", currentdocid);
     formdata.append("question", text);
     try {
         const responce = await fetch(`${Apiurl}/chat`, {
@@ -130,7 +130,7 @@ async function sendmessage() {
         });
         if(responce.ok){
             const data = await responce.json();
-            updatemessage(loadingid, "AI", data.answer);
+            updatemessage(loadingid, data.answer);
         }
         else {
             updatemessage(loadingid,"eror processing request.");
