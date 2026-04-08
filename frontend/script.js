@@ -80,6 +80,7 @@ actbtn.addEventListener("click", async () => {
         });
         if(responce.ok){
             const data = await responce.json();
+            console.log("THE BACKEND SENT:", data);
             currentdocid = data.document_id;
             statusdis.innerText = "knowledge base is Ready!!!";
             statusdis.style.color = "#09AB3B";
@@ -130,7 +131,8 @@ async function sendmessage() {
         });
         if(responce.ok){
             const data = await responce.json();
-            updatemessage(loadingid, data.answer);
+            updatemessage(loadingid, data.ans);
+            console.log("THE BACKEND SENT:", data);
         }
         else {
             updatemessage(loadingid,"eror processing request.");
@@ -150,15 +152,9 @@ function appendmessage(role,text){
     msgdiv.style.lineHeight = "1.5";
 
     if(role === "user"){
-        msgdiv.style.backgroundColor = "var(--chatuserbg, rgba(0,242,254,0.1))";
-        msgdiv.style.alignSelf = "flexend";
-        msgdiv.style.borderBottomLeftRadius = "5px";
-        msgdiv.style.border = "1px solid var(--glassborder)";
+        msgdiv.className = "chatbubble userbubble";
     }else {
-        msgdiv.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
-        msgdiv.style.alignSelf = "flex-start";
-        msgdiv.style.borderBottomLeftRadius = "5px";
-        msgdiv.style.border = "1px solid rgba(255, 255, 255, 0.08)";
+        msgdiv.className = "chatbubble botbubble";
     }
     msgdiv.innerText = text;
     chathistory.appendChild(msgdiv);
