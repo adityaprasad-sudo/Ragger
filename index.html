@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset = "UTF-8">
+    <meta name = "viewport"
+    content="width = devicewidth", initialscale = 1.0">
+    <title>Ragger</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class = "darkmode"> 
+    <div class = "appwrap">
+        <header>
+            <div class="logo">
+                <span class="icon"></span>Ragger
+            </div>
+            <div class = "themeswitch">
+                <span class = "sun"><img src="sun.png" alt="sun"></img></span>
+                <label class="switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" checked />
+                    <div class="slider"></div>
+                </label>
+                <span class = "moon"><img src="moon.png" alt="moon"></img></span>
+        </header>
+        <main class = "container">
+            <section class="uploader">
+                <div class="glassca">
+                    <h2>Upload a pdf</h2>
+                    <p class="subtitle">or drag and drop it</p>
+                    <div class="dropzone" id="dropzone">
+                        <span class="dropprompt">
+                            <div class="uploadicon"><img src="upload.png" alt="upload"></img></div>
+                            Drag and drop pdf or browse
+                        </span>
+                        <input type = "file" name = "file" id = "file" accept = ".pdf" class = "dropzoneinput" />
+                </div>
+                <div id = "filedet" class = "filedet hidden">
+                    <span id = "fileicon"><img src="upload.png" alt="file"></img></span>
+                    <span id="filename" class="filename"></span>
+                    </div>
+                    <button class = "actionbtnin" id="actbtn">
+                        <span class ="btntxt">build knowledge databse</span>
+                        <div class="loaderhid" id="btnhid"></div>
+                    </button>
+                    <div id = "statusdis" class="statusdishid"></div>
+                    </div>
+            </section>
+            <section class="chatpannel">
+                <div class = "glassca chatca">
+                    <div class = "chatheader">
+                        <h2>Ask a question about your pdf</h2>
+                        <div id = "activedocindi" class = "docindi hidden">
+                            <span class = "pulsedot"></span>
+                            Reading: <span id = "activedocname"></span>
+                        </div>
+                    </div>
+                    <div class="chathistory" id class="chathistory">
+                        <div class="welcomestat" id = "welcomestat">
+                            <div class = "aiicon"><img src="ai.png" alt="ai"></img></div>
+                            <h3>Knowledge base empty</h3>
+                            <p>Upload a pdf to get started</p>
+                            </div>
+                            <div class="chatinputarea">
+                                <input type = "text" name = "question" id = "question" placeholder = "Ask a question about your pdf" disabled>
+                                <button id="sendbtn" class="sendbtn" disabled>
+                                    <svg viewbox="0 0 24 24" fill="none" stroke = "currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                </button>
+                            </div>
+                    </div>
+            </section>
+            </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

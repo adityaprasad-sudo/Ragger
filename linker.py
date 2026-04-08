@@ -1,6 +1,6 @@
 import requests
 
-apiurl = ""
+apiurl = "http://127.0.0.1:8000"
 
 def upload(fileobj,filename):
     """uploads pdf"""
@@ -24,5 +24,7 @@ def ask(document_id,question):
             else:
                 return{"diabolical" : False, "error": {responce.status_code} }
         except requests.exceptions.ConnectionError:
-            return {"diabolical": False, "err" : "connect fail"}
+            return{"diabolical" : False, "error": "backend down :("}
+
+
                    
