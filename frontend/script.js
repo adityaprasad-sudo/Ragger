@@ -80,6 +80,7 @@ actbtn.addEventListener("click", async () => {
         });
         if(responce.ok){
             const data = await responce.json();
+            console.log("THE BACKEND SENT:", data);
             currentdocid = data.document_id;
             statusdis.innerText = "knowledge base is Ready!!!";
             statusdis.style.color = "#09AB3B";
@@ -115,13 +116,13 @@ question.addEventListener('keydown', (e) => {
     }
 });
 async function sendmessage() {
-    const text = question.ariaValueMax.trim();
+    const text = question.value.trim();
     if(!text || !currentdocid) return;
-    appendmessage("you", text);
+    appendmessage("user", text);
     question.value ='';
     const loadingid = appendmessage("AI", "thinking");
     const formdata = new FormData();
-    formdata.append("document_id", currentdocid);
+    formdata.append("documentid", currentdocid);
     formdata.append("question", text);
     try {
         const responce = await fetch(`${Apiurl}/chat`, {
@@ -130,13 +131,43 @@ async function sendmessage() {
         });
         if(responce.ok){
             const data = await responce.json();
-            updatemessage(loadingid, "AI", data.answer);
+            updatemessage(loadingid, data.ans);
+            console.log("THE BACKEND SENT:", data);
         }
         else {
             updatemessage(loadingid,"eror processing request.");
         }
     }catch (error) {
         updatemessage(loadingid, "connection to backend lost");
+    }
+}
+
+function appendmessage(role,text){
+    const id = 'msg-' + Date.now();
+    const msgdiv = document.createElement('div');
+    msgdiv.id = id;
+    msgdiv.style.borderRadius = "15px";
+    msgdiv.style.marginBottom = "1rem";
+    msgdiv.style.maxWidth = "85%";
+    msgdiv.style.lineHeight = "1.5";
+
+    if(role === "user"){
+        msgdiv.className = "chatbubble userbubble";
+    }else {
+        msgdiv.className = "chatbubble botbubble";
+    }
+    msgdiv.innerText = text;
+    chathistory.appendChild(msgdiv);
+    chathistory.scrollTop = chathistory.scrollHeight;
+    return id;
+}
+
+
+function updatemessage(id, text){
+    const msgdiv = document.getElementById(id);
+    if(msgdiv){
+        msgdiv.innerText = text;
+        chathistory.scrollTop = chathistory.scrollHeight;
     }
 }
 
