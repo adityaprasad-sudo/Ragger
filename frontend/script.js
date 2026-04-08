@@ -117,7 +117,7 @@ question.addEventListener('keydown', (e) => {
 async function sendmessage() {
     const text = question.value.trim();
     if(!text || !currentdocid) return;
-    appendmessage("you", text);
+    appendmessage("user", text);
     question.value ='';
     const loadingid = appendmessage("AI", "thinking");
     const formdata = new FormData();
@@ -137,6 +137,41 @@ async function sendmessage() {
         }
     }catch (error) {
         updatemessage(loadingid, "connection to backend lost");
+    }
+}
+
+function appendmessage(role,text){
+    const id = 'msg-' + Date.now();
+    const msgdiv = document.createElement('div');
+    msgdiv.id = id;
+    msgdiv.style.borderRadius = "15px";
+    msgdiv.style.marginBottom = "1rem";
+    msgdiv.style.maxWidth = "85%";
+    msgdiv.style.lineHeight = "1.5";
+
+    if(role === "user"){
+        msgdiv.style.backgroundColor = "var(--chatuserbg, rgba(0,242,254,0.1))";
+        msgdiv.style.alignSelf = "flexend";
+        msgdiv.style.borderBottomLeftRadius = "5px";
+        msgdiv.style.border = "1px solid var(--glassborder)";
+    }else {
+        msgdiv.style.backgroundColor = "rgba(255, 255, 255, 0.05)";
+        msgdiv.style.alignSelf = "flex-start";
+        msgdiv.style.borderBottomLeftRadius = "5px";
+        msgdiv.style.border = "1px solid rgba(255, 255, 255, 0.08)";
+    }
+    msgdiv.innerText = text;
+    chathistory.appendChild(msgdiv);
+    chathistory.scrollTop = chathistory.scrollHeight;
+    return id;
+}
+
+
+function updatemessage(id, text){
+    const msgdiv = document.getElementById(id);
+    if(msgdiv){
+        msgdiv.innerText = text;
+        chathistory.scrollTop = chathistory.scrollHeight;
     }
 }
 
