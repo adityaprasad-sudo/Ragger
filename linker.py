@@ -14,11 +14,11 @@ def upload(fileobj,filename):
     except requests.exceptions.ConnectionError:
         return {"diabolical" : False, "error": "backend down :("}
     
-    def ask(document_id,question):
+def ask(document_id,question):
         """send a question"""
         data = {"document_id": document_id, "question": question}
         try:
-            responce = requests.post(f"{apiurl}/chat")
+            responce = requests.post(f"{apiurl}/chat", data = data)
             if responce.status_code==200:
                 return{"diabolical" : True, "answer": responce.json().get("answer")}
             else:
