@@ -118,12 +118,16 @@ question.addEventListener('keydown', (e) => {
 async function sendmessage() {
     const text = question.value.trim();
     if(!text || !currentdocid) return;
-    appendmessage("user", text);
-    question.value ='';
-    const loadingid = appendmessage("AI", "thinking");
+    
+    appendmessage("user", text); 
+    question.value = '';
+    
+    const loadingid = appendmessage("bot", "thinking"); 
+    
     const formdata = new FormData();
     formdata.append("documentid", currentdocid);
     formdata.append("question", text);
+    
     try {
         const responce = await fetch(`${Apiurl}/chat`, {
             method: "POST",
@@ -131,14 +135,10 @@ async function sendmessage() {
         });
         if(responce.ok){
             const data = await responce.json();
-            updatemessage(loadingid, data.ans);
-            console.log("THE BACKEND SENT:", data);
+            updatemessage(loadingid, data.ans); 
         }
-        else {
-            updatemessage(loadingid,"eror processing request.");
-        }
-    }catch (error) {
-        updatemessage(loadingid, "connection to backend lost");
+    } catch (error) {
+        updatemessage(loadingid, "server error");
     }
 }
 

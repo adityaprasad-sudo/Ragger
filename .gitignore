@@ -1,3 +1,4 @@
 /.env
 /faiss_indexes
 .continue/agents/new-config.yaml
+backend/.env
